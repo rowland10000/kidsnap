@@ -8,7 +8,17 @@ macOS 12 以上 · 免費
 
 ---
 
-## 下載
+## 網頁版（不用安裝）
+
+**https://rowland10000.github.io/kidsnap/**
+
+電腦、iPhone、Android 的瀏覽器直接打開就能用，iPhone 請用 Safari。四個步驟跟 Mac 版一樣，照片同樣只在你的裝置裡處理，不會上傳。第一次打開要下載約 39 MB 的辨識模型，之後不用再下載。
+
+使用手冊（PDF，含網頁版注意事項）：https://github.com/rowland10000/kidsnap/releases/latest/download/KidSnap-manual.pdf
+
+---
+
+## Mac 版下載
 
 到 [Releases](../../releases/latest) 取得最新版，兩個檔案選一個：
 
@@ -89,7 +99,7 @@ KidSnap 執行的時候，會在你的電腦上開一個本機網址。關掉那
 
 - 一次最多 150 張
 - 支援 JPG、PNG、HEIC
-- 只有 macOS，沒有 Windows 版
+- 下載版只有 macOS，沒有 Windows 版；Windows 和手機請用網頁版
 - 兄弟姊妹長得像的時候可能認錯
 - 0 到 2 歲的照片還沒實際測過
 
@@ -101,4 +111,4 @@ KidSnap 執行的時候，會在你的電腦上開一個本機網址。關掉那
 
 ---
 
-說明手冊（PDF）在 Releases 裡一起附上。
+說明手冊（PDF）：https://github.com/rowland10000/kidsnap/releases/latest/download/KidSnap-manual.pdf（Releases 裡也有附）。
