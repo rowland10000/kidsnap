@@ -14,6 +14,8 @@ macOS 12 以上 · 免費
 
 電腦、iPhone、Android 的瀏覽器直接打開就能用，iPhone 請用 Safari。四個步驟跟 Mac 版一樣，照片同樣只在你的裝置裡處理，不會上傳。第一次打開要下載約 39 MB 的辨識模型，之後不用再下載。
 
+有 Mac 的話建議用下面的 Mac 版：原生程式、多核心運算，照片多或檔案大時比瀏覽器快也比較穩，不用下載模型，影片直接存進資料夾。網頁版適合臨時在手機或 Windows 上做幾十張。
+
 使用手冊（PDF，含網頁版注意事項）：https://github.com/rowland10000/kidsnap/releases/latest/download/KidSnap-manual.pdf
 
 ---
