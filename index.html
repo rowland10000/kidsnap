@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>KidSnap 記得拍</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="kicker">一張臉，把長大串起來</span>
+    <h1>KidSnap <small>記得拍</small></h1>
+  </div>
+  <p class="sub">把同一個孩子不同時期的照片丟進來，自動認出他、把臉對齊到同一個位置，串成一段看著長大的影片。全部在你的手機或電腦裡完成，照片不會上傳。</p>
+  <div id="model-status" class="model-status">模型載入中…</div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="chip active" data-tab="ref" role="tab">① 選主角</button>
+  <button class="chip" data-tab="batch" role="tab">② 丟照片</button>
+  <button class="chip" data-tab="order" role="tab">③ 排順序</button>
+  <button class="chip" data-tab="export" role="tab">④ 加風格</button>
+</nav>
+
+<main>
+<!-- ① 選主角 -->
+<section class="panel active" data-panel="ref">
+  <div class="card">
+    <div class="card-title">目前的目標人物</div>
+    <div class="ref-current">
+      <img id="ref-thumb" alt="" hidden>
+      <div id="ref-status" class="status err">尚未設定目標人物，先選一張主角臉部清楚的照片。</div>
+    </div>
+    <div class="actions">
+      <label class="btn primary">選一張主角的照片<input id="ref-file" type="file" accept="image/*,image/heic,image/heif,.heic,.heif" hidden></label>
+      <button id="ref-clear" class="btn">清除</button>
+    </div>
+  </div>
+  <div id="ref-pick" class="card" hidden>
+    <div class="card-title">這張照片裡有好幾張臉，點一下主角</div>
+    <div class="pick-wrap"><canvas id="ref-canvas"></canvas></div>
+  </div>
+  <p class="hint">只需要設定一次，會記在這個瀏覽器裡。照片裡只有一張臉時會直接採用。</p>
+</section>
+
+<!-- ② 丟照片 -->
+<section class="panel" data-panel="batch">
+  <div class="card">
+    <div class="card-title">把主角從小到大的照片全部選進來</div>
+    <label id="drop" class="drop">
+      <input id="batch-files" type="file" accept="image/*,image/heic,image/heif,.heic,.heif" multiple hidden>
+      <span class="drop-main">點這裡選照片</span>
+      <span class="drop-sub">一次最多 150 張，支援 JPG／PNG／HEIC，會依拍攝日期自動排序</span>
+    </label>
+    <div id="batch-count" class="status"></div>
+    <div class="row">
+      <span class="lbl">尺寸</span>
+      <div class="chips" id="size-chips">
+        <button class="chip small active" data-size="1:1">1:1</button>
+        <button class="chip small" data-size="9:16">9:16</button>
+        <button class="chip small" data-size="16:9">16:9</button>
+        <button class="chip small" data-size="4:5">4:5</button>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="batch-run" class="btn primary" disabled>開始對齊</button>
+    </div>
+    <div id="batch-progress" class="progress" hidden><div class="bar"></div><span class="ptext"></span></div>
+    <div id="batch-status" class="status"></div>
+  </div>
+  <div id="batch-grid" class="grid"></div>
+</section>
+
+<!-- ③ 排順序 -->
+<section class="panel" data-panel="order">
+  <div class="card">
+    <div class="card-title">拖一拖、或用箭頭調整順序；不要的按 ✕</div>
+    <div id="order-status" class="status"></div>
+    <div class="actions">
+      <button id="order-reset" class="btn">恢復日期順序</button>
+    </div>
+  </div>
+  <div id="order-grid" class="grid order"></div>
+</section>
+
+<!-- ④ 輸出 -->
+<section class="panel" data-panel="export">
+  <div class="card">
+    <div class="card-title">挑一個風格，右邊馬上看到效果；「無」就是乾淨的對齊影片</div>
+    <div class="style-grid">
+      <div class="style-opts">
+        <div class="row">
+          <span class="lbl">風格</span>
+          <div class="chips" id="style-chips">
+            <button class="chip small active" data-style="無">無</button>
+            <button class="chip small" data-style="相框">相框</button>
+            <button class="chip small" data-style="色塊海報">色塊海報</button>
+            <button class="chip small" data-style="弧形大字">弧形大字</button>
+            <button class="chip small" data-style="塗鴉描邊">塗鴉描邊</button>
+            <button class="chip small" data-style="隨機">隨機</button>
+          </div>
+        </div>
+        <div class="row">
+          <span class="lbl">數字</span>
+          <div class="chips" id="num-chips">
+            <button class="chip small active" data-num="today">今天日期</button>
+            <button class="chip small" data-num="birthday">生日</button>
+            <button class="chip small" data-num="none">不顯示</button>
+          </div>
+        </div>
+        <div class="row" id="birthday-row" hidden>
+          <span class="lbl">生日</span>
+          <input id="birthday" class="text" type="text" inputmode="numeric" placeholder="2019-01-12">
+        </div>
+        <div class="row">
+          <span class="lbl">主標</span>
+          <input id="headline" class="text" type="text" placeholder="留空自動產生，例如 Happy Birthday、生日快樂">
+        </div>
+        <div class="row">
+          <span class="lbl">英文</span>
+          <div class="chips" id="latin-chips">
+            <button class="chip small active" data-latin="草寫">草寫</button>
+            <button class="chip small" data-latin="手寫">手寫</button>
+            <button class="chip small" data-latin="粗體">粗體</button>
+            <button class="chip small" data-latin="海報">海報</button>
+            <button class="chip small" data-latin="圓胖">圓胖</button>
+            <button class="chip small" data-latin="窄粗">窄粗</button>
+          </div>
+        </div>
+        <div class="row">
+          <span class="lbl">中文</span>
+          <div class="chips" id="cjk-chips">
+            <button class="chip small active" data-cjk="粗黑體">粗黑體</button>
+            <button class="chip small" data-cjk="粗明體">粗明體</button>
+            <button class="chip small" data-cjk="粗圓體">粗圓體</button>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="style-reroll" class="btn">換一組版面</button>
+        </div>
+      </div>
+      <div class="style-preview">
+        <img id="style-preview" alt="效果預覽" hidden>
+        <div id="style-status" class="status"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="row">
+      <span class="lbl">速度</span>
+      <div class="chips" id="speed-chips">
+        <button class="chip small" data-fps="6">慢</button>
+        <button class="chip small active" data-fps="12">預設</button>
+        <button class="chip small" data-fps="24">快</button>
+      </div>
+    </div>
+    <div class="row">
+      <span class="lbl">格式</span>
+      <div class="chips" id="fmt-chips">
+        <button class="chip small active" data-fmt="mp4">MP4</button>
+        <button class="chip small" data-fmt="gif">GIF</button>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="export-run" class="btn primary">建立影片</button>
+    </div>
+    <div id="export-progress" class="progress" hidden><div class="bar"></div><span class="ptext"></span></div>
+    <div id="export-status" class="status"></div>
+  </div>
+  <div id="export-result" class="card" hidden>
+    <div class="card-title">完成</div>
+    <div class="result-wrap">
+      <video id="export-video" controls playsinline loop hidden></video>
+      <img id="export-gif" alt="" hidden>
+    </div>
+    <div class="actions">
+      <a id="export-download" class="btn primary" download>下載</a>
+      <button id="export-share" class="btn" hidden>分享／存到相簿</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">照片不會離開這台裝置。關掉這個分頁，什麼都不會留下，只有「目標人物」記在瀏覽器裡。</footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
