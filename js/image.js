@@ -20,6 +20,14 @@ export async function loadImage(source) {
   };
 }
 
+// 2×2 的 HEIC（sips 產生，506 bytes）；解得開才代表這個瀏覽器讀得到 iPhone 的 HEIC
+const HEIC_PROBE = "data:image/heic;base64,AAAAJGZ0eXBoZWljAAAAAG1pZjFNaVBybWlhZk1pSEJoZWljAAABh21ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAHBpY3QAAAAAAAAAAAAAAAAAAAAAJGRpbmYAAAAcZHJlZgAAAAAAAAABAAAADHVybCAAAAABAAAADnBpdG0AAAAAAAEAAAAjaWluZgAAAAAAAQAAABVpbmZlAgAAAAABAABodmMxAAAAAOdpcHJwAAAAxmlwY28AAAATY29scm5jbHgAAgACAAaAAAAADGNsbGkAywBAAAAAFGlzcGUAAAAAAAAAAgAAAAIAAAAJaXJvdAAAAAAQcGl4aQAAAAADCAgIAAAAcmh2Y0MBA3AAAACwAAAAAAAe8AD8/fj4AAALA6AAAQAXQAEMAf//A3AAAAMAsAAAAwAAAwAecCShAAEAJEIBAQNwAAADALAAAAMAAAMAHqAUIEHAoQQYh7kWVTcCAgYAgKIAAQAJRAHAYXLIRFNkAAAAGWlwbWEAAAAAAAAAAQABBoECAwWGhAAAAB5pbG9jAAAAAEQAAAEAAQAAAAEAAAG7AAAAPwAAAAFtZGF0AAAAAAAAAE8AAAA7KAGvovpGgXz//drP//bl+y/QCj1X/7QnyPm7sv+mUPdMsmf6IPnCOd4c8OZz7/blQi9hX4K3CEmyK4A=";
+let heicPromise = null;
+export function heicSupported() {
+  if (!heicPromise) heicPromise = loadImage(HEIC_PROBE).then(im => { if (im) im.release(); return !!im; });
+  return heicPromise;
+}
+
 export function makeCanvas(w, h) {
   const c = document.createElement("canvas");
   c.width = w; c.height = h;

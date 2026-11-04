@@ -1,0 +1,16 @@
+name: 檢查沒有對外請求
+
+# 每次推上 gh-pages 都會跑。如果有人把 MediaPipe 的 no-op 修改蓋掉，
+# 這裡會變成紅色的 ✗，不用靠下一個人記得去讀 README。
+on:
+  push:
+    branches: [gh-pages]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 跑守門檢查
+        run: bash tools/check_no_outbound.sh

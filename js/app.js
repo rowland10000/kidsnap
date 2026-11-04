@@ -1,5 +1,5 @@
 import { loadModels, detectFaces, modelsReady } from "./engine.js";
-import { loadImage, makeCanvas, ctxOf } from "./image.js";
+import { loadImage, makeCanvas, ctxOf, heicSupported } from "./image.js";
 import { processBatch, renderFrame, SIZES, MAX_PHOTOS } from "./pipeline.js";
 import { fmtDate } from "./exif.js";
 import { encodeMp4, encodeGif, mp4Supported } from "./video.js";
@@ -69,6 +69,12 @@ const modelStatus = $("#model-status");
     modelStatus.classList.add("err");
   }
 })();
+heicSupported().then(ok => {
+  $("#heic-note").hidden = ok;
+  $("#drop-sub").textContent = ok
+    ? "一次最多 150 張，支援 JPG／PNG／HEIC，會依拍攝日期自動排序"
+    : "一次最多 150 張，支援 JPG／PNG（這個瀏覽器讀不到 HEIC），會依拍攝日期自動排序";
+});
 async function ensureModels() {
   if (modelsReady()) return true;
   await new Promise(r => setTimeout(r, 300));

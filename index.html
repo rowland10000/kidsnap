@@ -15,6 +15,7 @@
   </div>
   <p class="sub">把同一個孩子不同時期的照片丟進來，自動認出他、把臉對齊到同一個位置，串成一段看著長大的影片。全部在你的手機或電腦裡完成，照片不會上傳。</p>
   <div id="model-status" class="model-status">模型載入中…</div>
+  <div id="heic-note" class="model-status err" hidden>這個瀏覽器讀不到 iPhone 拍的 HEIC 照片。請改用 Safari 開這個網頁，或先把照片轉成 JPG 再選。</div>
 </header>
 
 <nav class="tabs" role="tablist">
@@ -52,7 +53,7 @@
     <label id="drop" class="drop">
       <input id="batch-files" type="file" accept="image/*,image/heic,image/heif,.heic,.heif" multiple hidden>
       <span class="drop-main">點這裡選照片</span>
-      <span class="drop-sub">一次最多 150 張，支援 JPG／PNG／HEIC，會依拍攝日期自動排序</span>
+      <span id="drop-sub" class="drop-sub">一次最多 150 張，會依拍攝日期自動排序</span>
     </label>
     <div id="batch-count" class="status"></div>
     <div class="row">
