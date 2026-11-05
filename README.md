@@ -21,7 +21,7 @@ node web/dev_server.mjs        # http://127.0.0.1:8765/
 ## 瀏覽器支援
 
 - MP4 需要 WebCodecs：Safari 16.4+（iPhone／Mac）、Chrome 94+、Edge 94+、Firefox 130+。不支援時改輸出 GIF。
-- HEIC：Safari（iPhone／Mac）可直接讀，iPhone 從相簿選照片時原檔直接交給網頁、不經轉檔，打勾後幾秒就回來；Chrome／Edge（含 Android）讀不到 HEIC，這類照片會標「無法讀取圖片」並略過，請先轉 JPG。頁面載入時會用一張 2×2 的內嵌 HEIC 試解（`js/image.js` 的 `heicSupported()`，不看 User-Agent）：解不開就在標題下方顯示紅字提醒（附用 email／LINE 傳給自己轉 JPG 的做法），丟照片頁的格式說明也會改成「支援 JPG／PNG（這個瀏覽器讀不到 HEIC）」。
+- HEIC：Safari（iPhone／Mac）可直接讀，iPhone 從相簿選照片時原檔直接交給網頁、不經轉檔，打勾後幾秒就回來；Chrome／Edge（含 Android）讀不到 HEIC，這類照片會標「無法讀取圖片」並略過，請先轉 JPG。頁面載入時會用一張 2×2 的內嵌 HEIC 試解（`js/image.js` 的 `heicSupported()`，不看 User-Agent）：解不開就在標題下方顯示紅字提醒（附用 LINE 傳給自己轉 JPG 的做法），丟照片頁的格式說明也會改成「支援 JPG／PNG（這個瀏覽器讀不到 HEIC）」。
 - 必須用 https（或 localhost）開，WebCodecs 與分享功能在 http 下會被瀏覽器關掉。
 
 ## 隱私：拔掉 MediaPipe 內建的使用統計紀錄器（2026-11-04）
